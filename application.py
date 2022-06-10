@@ -3,8 +3,8 @@ import constants
 PLAYERS = constants.PLAYERS.copy()
 panthers, warriors, bandits = [], [], []
 
-#Updates the PLAYERS database by converting height string type
-#to an integar and the experience string type to a boolean type
+#Updates the PLAYERS database by converting height(string type)
+#to an integar and the experience(string type) to a boolean type
 def clean_data():
     for player in PLAYERS:
         player['height'] = int(player['height'][:2])
@@ -46,10 +46,16 @@ def display_stats_for(team, team_data):
         print(f'AVERAGE HEIGHT: {average_height} \n')
         names = [player['name'] for player in team_data]
         names = ', '.join(names)
-        guardians = [', '.join(player['guardians'].split('and')) for player in team_data]
-        guardians = ', '.join(guardians)
+        guardians = [player['guardians'].split(' and ') for player in team_data]
+        guardians_updated = []
+        for guardian in guardians:
+            if len(guardian) > 1:
+                for i in guardian:
+                    guardians_updated.append(i)
+            else:
+                guardians_updated.append(''.join(guardian))
         print(f'PLAYER NAMES: {names} \n')
-        print(f'GUARDIANS: {guardians}\n')
+        print('GUARDIANS:', ', '.join(guardians_updated), '\n')
 
 
 if __name__ == "__main__":
@@ -69,8 +75,8 @@ if __name__ == "__main__":
                 raise ValueError('Please select either of the two options only (A or B)')
             if menu_option.lower() == 'a':
                 print('Here are the teams stats you can view Panthers, Warriors, and Bandits', '\n')
-                selected_team = input('Please type in the entire name of the team to view their stats: ')
-                if selected_team.lower() not in ['panthers', 'warriors', 'bandits']:
+                selected_team = input('Please type in the entire name of the team to view their stats: ').lower()
+                if selected_team not in ['panthers', 'warriors', 'bandits']:
                     raise ValueError('The only avaliable names to type in are Panthers, Warriors, Bandits)')
             elif menu_option.lower() == 'b':
                 break
