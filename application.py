@@ -8,6 +8,9 @@ panthers, warriors, bandits = [], [], []
 def clean_data():
     for player in PLAYERS:
         player['height'] = int(player['height'][:2])
+        player['guardians'] = player['guardians'].split(' and ')
+        print(player['guardians'])
+        player['guardians']
         if player['experience'].lower() == 'yes':
             player['experience'] = True
         else:
@@ -46,16 +49,15 @@ def display_stats_for(team, team_data):
         print(f'AVERAGE HEIGHT: {average_height} \n')
         names = [player['name'] for player in team_data]
         names = ', '.join(names)
-        guardians = [player['guardians'].split(' and ') for player in team_data]
-        guardians_updated = []
-        for guardian in guardians:
-            if len(guardian) > 1:
-                for i in guardian:
-                    guardians_updated.append(i)
+        guardians = []
+        for player in team_data:
+            if len(player['guardians']) > 1:
+                for i in player['guardians']:
+                    guardians.append(i)
             else:
-                guardians_updated.append(''.join(guardian))
+                guardians.append(''.join(player['guardians']))
         print(f'PLAYER NAMES: {names} \n')
-        print('GUARDIANS:', ', '.join(guardians_updated), '\n')
+        print('PLAYERS GUARDIANS:', ', '.join(guardians), '\n')
 
 
 if __name__ == "__main__":
